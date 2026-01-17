@@ -1,2 +1,4 @@
 github.com/bigtimer-dev/pokecli/repl v0.0.0-20260117134400-ff3c2b54a4ca h1:ju/w9x09mPbaT/rhTu54HrVzKwmN81+uSYgT8pKnqyQ=
 github.com/bigtimer-dev/pokecli/repl v0.0.0-20260117134400-ff3c2b54a4ca/go.mod h1:z4MBVIsI1t/+slcP2yZY+6STfbT0AJABTsvfz3jT4bM=
+github.com/bigtimer-dev/pokecli/repl v0.0.0-20260117142103-f58991084b6a h1:N78KvAA9pWmOcIZAwhbc1XrQwoyXEEwkCR7grQfL65s=
+github.com/bigtimer-dev/pokecli/repl v0.0.0-20260117142103-f58991084b6a/go.mod h1:z4MBVIsI1t/+slcP2yZY+6STfbT0AJABTsvfz3jT4bM=
