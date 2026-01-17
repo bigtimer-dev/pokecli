@@ -30,14 +30,16 @@ func TestCleanInput(t *testing.T) {
 		gotLength := len(actual)
 		if gotLength != expectedLength {
 			t.Errorf("got: %v, expected: %v", gotLength, expectedLength)
+			continue
 		}
 		for i := range actual {
 			gotWord := actual[i]
 			expectedWord := c.expected[i]
 			if gotWord != expectedWord {
 				t.Errorf("got: %s, expected: %s", gotWord, expectedWord)
+				continue
 			}
 		}
-
+		t.Logf("PASS  got: %v, expected: %v", actual, c.expected)
 	}
 }
