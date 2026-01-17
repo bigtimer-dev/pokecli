@@ -1,6 +1,8 @@
 package repl
 
-func cleanInput(text string) []string {
-	var slice []string
+import "strings"
+
+func cleanInput(mystring string) []string {
+	slice := strings.Fields(mystring)
 	return slice
 }
