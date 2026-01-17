@@ -23,7 +23,13 @@ func main() {
 			continue
 		}
 
-		fmt.Printf("Your command was: %s\n", slice[0])
+		if value, ok := supportCommand[slice[0]]; ok {
+			if err := value.callback(); err != nil {
+				fmt.Println("Error:", err)
+			}
+		} else {
+			fmt.Println("Unknow command")
+		}
 
 		if err := scanner.Err(); err != nil {
 			fmt.Fprint(os.Stderr, "Error scanning: ", err)
