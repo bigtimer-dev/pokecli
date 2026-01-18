@@ -37,6 +37,9 @@ func commandMapb(cfg *config) error {
 	if err != nil {
 		return err
 	}
+	if cfg.previous == nil {
+		fmt.Println("You are on the first 20 locations")
+	}
 	for _, location := range resp.Results {
 		fmt.Println(location.Name)
 	}
