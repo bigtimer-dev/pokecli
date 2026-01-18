@@ -32,7 +32,7 @@ func commandMap(cfg *config, mystring []string) error {
 		if err := json.Unmarshal(entry, &resp); err != nil {
 			return fmt.Errorf("error decoding entry: %w", err)
 		}
-		printHelper(&resp, cfg)
+		printHelperArea(&resp, cfg)
 		return nil
 	}
 	resp, raw, err := cfg.client.ListLocations(cfg.next)
@@ -41,7 +41,7 @@ func commandMap(cfg *config, mystring []string) error {
 	}
 	cfg.cache.Add(key, raw)
 
-	printHelper(&resp, cfg)
+	printHelperArea(&resp, cfg)
 	return nil
 }
 
@@ -58,7 +58,7 @@ func commandMapb(cfg *config, mystring []string) error {
 		if err := json.Unmarshal(data, &resp); err != nil {
 			return fmt.Errorf("error decoding entry: %w", err)
 		}
-		printHelper(&resp, cfg)
+		printHelperArea(&resp, cfg)
 		return nil
 	}
 
@@ -69,7 +69,7 @@ func commandMapb(cfg *config, mystring []string) error {
 
 	cfg.cache.Add(key, raw)
 
-	printHelper(&resp, cfg)
+	printHelperArea(&resp, cfg)
 	return nil
 }
 
@@ -79,12 +79,39 @@ func commandClear(cfg *config, mystring []string) error {
 }
 
 func commandExplore(cfg *config, mystring []string) error {
+	if len(mystring) < 2 || len(mystring) > 2 {
+		return fmt.Errorf("to use <explore> location-area")
+	}
+	key := mystring[1]
+	if data, ok := cfg.cache.Get(key); ok {
+		var resp pokeapi.PokemonInArea
+		if err := json.Unmarshal(data, &resp); err != nil {
+			return fmt.Errorf("error decoding entry: %w", err)
+		}
+		printHelperPokemon(&resp, cfg, key)
+		return nil
+	}
+	resp, rawData, err := cfg.client.ExploreLocation(key)
+	if err != nil {
+		return err
+	}
+	cfg.cache.Add(key, rawData)
+
+	printHelperPokemon(&resp, cfg, key)
+	return nil
 }
 
-func printHelper(resp *pokeapi.Locations, cfg *config) {
+func printHelperArea(resp *pokeapi.Locations, cfg *config) {
 	for _, location := range resp.Results {
 		fmt.Println(location.Name)
 	}
 	cfg.next = resp.Next
 	cfg.previous = resp.Previous
+}
+
+func printHelperPokemon(resp *pokeapi.PokemonInArea, cfg *config, key string) {
+	fmt.Printf("Exploring %s...\nFound Pokemon:\n", key)
+	for _, Encounters := range resp.PokemonEncounters {
+		fmt.Println(Encounters.Pokemon.Name)
+	}
 }
