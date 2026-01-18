@@ -101,6 +101,20 @@ func commandExplore(cfg *config, mystring []string) error {
 	return nil
 }
 
+func commandCatch(cfg *config, mystring []string) error {
+	if len(mystring) < 2 || len(mystring) > 2 {
+		return fmt.Errorf("to use <catch> pokemon")
+	}
+	key := mystring[1]
+	if data, ok := cfg.cache.Get(key); ok {
+		var resp pokeapi.Pokemon
+		if err := json.Unmarshal(data, &resp); err != nil {
+			return fmt.Errorf("error decoding response: %w", err)
+		}
+
+	}
+}
+
 func printHelperArea(resp *pokeapi.Locations, cfg *config) {
 	for _, location := range resp.Results {
 		fmt.Println(location.Name)
@@ -114,4 +128,7 @@ func printHelperPokemon(resp *pokeapi.PokemonInArea, cfg *config, key string) {
 	for _, Encounters := range resp.PokemonEncounters {
 		fmt.Println(Encounters.Pokemon.Name)
 	}
+}
+
+func printCatch(resp *pokeapi.Pokemon, cfg *config, key string) {
 }
