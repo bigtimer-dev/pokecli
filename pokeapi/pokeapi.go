@@ -3,10 +3,11 @@ package pokeapi
 import (
 	"encoding/json"
 	"fmt"
+	"io"
 	"net/http"
 )
 
-func (c *Client) ListLocations(pageURL *string) (Locations, error) {
+func (c *Client) ListLocations(pageURL *string) (Locations, []byte, error) {
 	const baseURL = "https://pokeapi.co/api/v2"
 	url := baseURL + "/location-area"
 	if pageURL != nil {
@@ -14,22 +15,26 @@ func (c *Client) ListLocations(pageURL *string) (Locations, error) {
 	}
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
-		return Locations{}, fmt.Errorf("error creating request : %w", err)
+		return Locations{}, nil, fmt.Errorf("error creating request : %w", err)
 	}
 
 	resp, err := c.httpClient.Do(req)
 	if err != nil {
-		return Locations{}, fmt.Errorf("error getting response: %w", err)
+		return Locations{}, nil, fmt.Errorf("error getting response: %w", err)
 	}
 
 	defer resp.Body.Close()
 
-	decoder := json.NewDecoder(resp.Body)
-	var newLocations Locations
-
-	if err = decoder.Decode(&newLocations); err != nil {
-		return Locations{}, fmt.Errorf("error decoding the response: %w", err)
+	rawData, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return Locations{}, nil, fmt.Errorf("error reading raw data: %w", err)
 	}
 
-	return newLocations, nil
+	var newLocations Locations
+
+	if err = json.Unmarshal(rawData, &newLocations); err != nil {
+		return Locations{}, nil, fmt.Errorf("error decoding the response: %w", err)
+	}
+
+	return newLocations, rawData, nil
 }
