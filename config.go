@@ -10,4 +10,5 @@ type config struct {
 	previous *string
 	cache    *pokecache.Cache
 	client   *pokeapi.Client
+	user     *User
 }

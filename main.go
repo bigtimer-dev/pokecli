@@ -16,6 +16,7 @@ func main() {
 	cfg := &config{
 		client: pokeapi.NewClient(),
 		cache:  pokecache.NewCache(10 * time.Second),
+		user:   NewUser(),
 	}
 	for {
 		fmt.Print("Pokedex > ")

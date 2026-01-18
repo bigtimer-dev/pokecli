@@ -1,6 +1,6 @@
-github.com/bigtimer-dev/pokecli/pokeapi v0.0.0-20260118142409-9277a5c47704 h1:+cqyOpU4mpaiFCaNC1+K8dKZ6jdi29xiEGG3SLc7Mt8=
-github.com/bigtimer-dev/pokecli/pokeapi v0.0.0-20260118142409-9277a5c47704/go.mod h1:jfykZL7OchtZt7PKLEri1lhz9hW3swO7YKxvcRF2HuE=
-github.com/bigtimer-dev/pokecli/pokecache v0.0.0-20260118142409-9277a5c47704 h1:67gw0jnnPvZrqWcyTWKVZkkvjYGBhLTmiHh7cnRSZa4=
-github.com/bigtimer-dev/pokecli/pokecache v0.0.0-20260118142409-9277a5c47704/go.mod h1:0EkBm2h7Gem/1cw80zHT5rcG+fN0NIf7ebvDLhBuAOc=
-github.com/bigtimer-dev/pokecli/repl v0.0.0-20260118142409-9277a5c47704 h1:VCL0/U8Q5dlDIuBvpSVWlJWOmh0p7zSOjaVZWjCDTdI=
-github.com/bigtimer-dev/pokecli/repl v0.0.0-20260118142409-9277a5c47704/go.mod h1:z4MBVIsI1t/+slcP2yZY+6STfbT0AJABTsvfz3jT4bM=
+github.com/bigtimer-dev/pokecli/pokeapi v0.0.0-20260118172912-aec516023db8 h1:QLGGeXGXK0pywO+r8iHl7eWazrZWqcMomnZ7pbDtaPQ=
+github.com/bigtimer-dev/pokecli/pokeapi v0.0.0-20260118172912-aec516023db8/go.mod h1:jfykZL7OchtZt7PKLEri1lhz9hW3swO7YKxvcRF2HuE=
+github.com/bigtimer-dev/pokecli/pokecache v0.0.0-20260118172912-aec516023db8 h1:8rXQ8E258HgbdRCHR9T5PGxk0W+nUYZptjJHqdVHK4E=
+github.com/bigtimer-dev/pokecli/pokecache v0.0.0-20260118172912-aec516023db8/go.mod h1:0EkBm2h7Gem/1cw80zHT5rcG+fN0NIf7ebvDLhBuAOc=
+github.com/bigtimer-dev/pokecli/repl v0.0.0-20260118172912-aec516023db8 h1:0UKgiL/n71lHu+/Ylw/TjxSQLTLHiVEKVAabRIUA6gw=
+github.com/bigtimer-dev/pokecli/repl v0.0.0-20260118172912-aec516023db8/go.mod h1:z4MBVIsI1t/+slcP2yZY+6STfbT0AJABTsvfz3jT4bM=
