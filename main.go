@@ -5,12 +5,15 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/bigtimer-dev/pokecli/pokeapi"
 	"github.com/bigtimer-dev/pokecli/repl"
 )
 
 func main() {
 	scanner := bufio.NewScanner(os.Stdin)
-	cfg := &config{}
+	cfg := &config{
+		client: pokeapi.NewClient(),
+	}
 	for {
 		fmt.Print("Pokedex > ")
 

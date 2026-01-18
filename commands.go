@@ -18,3 +18,29 @@ func commandHelp(cfg *config) error {
 	}
 	return nil
 }
+
+func commandMap(cfg *config) error {
+	resp, err := cfg.client.ListLocations(cfg.next)
+	if err != nil {
+		return err
+	}
+	for _, location := range resp.Results {
+		fmt.Println(location.Name)
+	}
+	cfg.next = resp.Next
+	cfg.previous = resp.Previous
+	return nil
+}
+
+func commandMapb(cfg *config) error {
+	resp, err := cfg.client.ListLocations(cfg.previous)
+	if err != nil {
+		return err
+	}
+	for _, location := range resp.Results {
+		fmt.Println(location.Name)
+	}
+	cfg.next = resp.Next
+	cfg.previous = resp.Previous
+	return nil
+}
