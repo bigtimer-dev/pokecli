@@ -9,6 +9,8 @@ import (
 	"github.com/bigtimer-dev/pokecli/pokeapi"
 )
 
+// working REPL functions
+
 func commandExit(cfg *config, mystring []string) error {
 	fmt.Println("Closing the Pokedex... Goodbye!")
 	os.Exit(0)
@@ -127,6 +129,30 @@ func commandCatch(cfg *config, mystring []string) error {
 	return nil
 }
 
+func commandInspect(cfg *config, mystring []string) error {
+	if len(mystring) < 2 || len(mystring) > 2 {
+		return fmt.Errorf("to use <inspect> pokemon")
+	}
+	key := mystring[1]
+	data, ok := cfg.user.Get(key)
+	if !ok {
+		fmt.Println("you have not caught that pokemon")
+		return nil
+	}
+	printInspect(data)
+	return nil
+}
+
+func commandPokedex(cfg *config, mystring []string) error {
+	slice := cfg.user.All()
+	fmt.Println("Your Pokedex:")
+	for pokemon := range slice {
+		fmt.Println(slice[pokemon])
+	}
+	return nil
+}
+
+// helper functions
 func printHelperArea(resp *pokeapi.Locations, cfg *config) {
 	for _, location := range resp.Results {
 		fmt.Println(location.Name)
@@ -156,11 +182,28 @@ func tryingCatch(exp int) bool {
 
 func printCatch(resp pokeapi.Pokemon, cfg *config, key string) {
 	if tryingCatch(resp.BaseExperience) {
-		fmt.Printf("Throwing a Pokeball at %s...", key)
-		fmt.Printf("%s was caught!", key)
+		fmt.Printf("Throwing a Pokeball at %s...\n", key)
+		fmt.Printf("%s was caught!\n", key)
+		fmt.Println("You may now inspect it with the inspect command.")
 		cfg.user.Add(key, resp)
 	} else {
-		fmt.Printf("Throwing a Pokeball at %s...", key)
-		fmt.Printf("%s escaped!", key)
+		fmt.Printf("Throwing a Pokeball at %s...\n", key)
+		fmt.Printf("%s escaped!\n", key)
+	}
+}
+
+func printInspect(p pokeapi.Pokemon) {
+	fmt.Printf("Name: %s\n", p.Name)
+	fmt.Printf("Height: %d\n", p.Height)
+	fmt.Printf("Weight: %d\n", p.Weight)
+
+	fmt.Println("Stats:")
+	for _, s := range p.Stats {
+		fmt.Printf("  -%s: %d\n", s.Stat.Name, s.BaseStat)
+	}
+
+	fmt.Println("Types:")
+	for _, t := range p.Types {
+		fmt.Printf("  - %s\n", t.Type.Name)
 	}
 }

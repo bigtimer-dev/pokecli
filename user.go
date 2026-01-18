@@ -15,5 +15,17 @@ func NewUser() *User {
 
 func (c *User) Add(key string, val pokeapi.Pokemon) {
 	c.creatures[key] = val
-	return
+}
+
+func (c *User) Get(key string) (pokeapi.Pokemon, bool) {
+	data, ok := c.creatures[key]
+	return data, ok
+}
+
+func (c *User) All() []string {
+	slice := []string{}
+	for key := range c.creatures {
+		slice = append(slice, key)
+	}
+	return slice
 }
