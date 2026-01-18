@@ -4,8 +4,10 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"time"
 
 	"github.com/bigtimer-dev/pokecli/pokeapi"
+	"github.com/bigtimer-dev/pokecli/pokecache"
 	"github.com/bigtimer-dev/pokecli/repl"
 )
 
@@ -13,6 +15,7 @@ func main() {
 	scanner := bufio.NewScanner(os.Stdin)
 	cfg := &config{
 		client: pokeapi.NewClient(),
+		cache:  pokecache.NewCache(10 * time.Second),
 	}
 	for {
 		fmt.Print("Pokedex > ")
@@ -28,7 +31,7 @@ func main() {
 		}
 
 		if value, ok := supportCommand[slice[0]]; ok {
-			if err := value.callback(cfg); err != nil {
+			if err := value.callback(cfg, slice); err != nil {
 				fmt.Println("Error:", err)
 			}
 		} else {
