@@ -12,3 +12,8 @@ func NewUser() *User {
 	}
 	return u
 }
+
+func (c *User) Add(key string, val pokeapi.Pokemon) {
+	c.creatures[key] = val
+	return
+}

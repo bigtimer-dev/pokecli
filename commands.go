@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"math/rand"
 	"os"
 
 	"github.com/bigtimer-dev/pokecli/pokeapi"
@@ -105,14 +106,25 @@ func commandCatch(cfg *config, mystring []string) error {
 	if len(mystring) < 2 || len(mystring) > 2 {
 		return fmt.Errorf("to use <catch> pokemon")
 	}
+	var resp pokeapi.Pokemon
+	var rawData []byte
 	key := mystring[1]
+
 	if data, ok := cfg.cache.Get(key); ok {
-		var resp pokeapi.Pokemon
 		if err := json.Unmarshal(data, &resp); err != nil {
 			return fmt.Errorf("error decoding response: %w", err)
 		}
+	} else {
+		var err error
 
+		resp, rawData, err = cfg.client.CaughtPokemon(key)
+		if err != nil {
+			return fmt.Errorf("error getting creature: %w", err)
+		}
+		cfg.cache.Add(key, rawData)
 	}
+	printCatch(resp, cfg, key)
+	return nil
 }
 
 func printHelperArea(resp *pokeapi.Locations, cfg *config) {
@@ -130,5 +142,25 @@ func printHelperPokemon(resp *pokeapi.PokemonInArea, cfg *config, key string) {
 	}
 }
 
-func printCatch(resp *pokeapi.Pokemon, cfg *config, key string) {
+func tryingCatch(exp int) bool {
+	max := exp
+	if max < 20 {
+		max = 20
+	} else if max > 200 {
+		max = 200
+	}
+
+	r := rand.Intn(max)
+	return r < 50
+}
+
+func printCatch(resp pokeapi.Pokemon, cfg *config, key string) {
+	if tryingCatch(resp.BaseExperience) {
+		fmt.Printf("Throwing a Pokeball at %s...", key)
+		fmt.Printf("%s was caught!", key)
+		cfg.user.Add(key, resp)
+	} else {
+		fmt.Printf("Throwing a Pokeball at %s...", key)
+		fmt.Printf("%s escaped!", key)
+	}
 }
