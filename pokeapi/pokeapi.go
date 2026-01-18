@@ -67,3 +67,31 @@ func (c *Client) ExploreLocation(mystring string) (PokemonInArea, []byte, error)
 
 	return pokemons, rawData, nil
 }
+
+func (c *Client) CaughtPokemon(mystring string) (Pokemon, []byte, error) {
+	const baseURL = "https://pokeapi.co/api/v2/pokemon"
+	url := baseURL + "/" + mystring
+
+	req, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		return Pokemon{}, nil, fmt.Errorf("error creating request: %w", err)
+	}
+	resp, err := c.httpClient.Do(req)
+	if err != nil {
+		return Pokemon{}, nil, fmt.Errorf("error getting response: %w", err)
+	}
+
+	defer resp.Body.Close()
+
+	rawData, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return Pokemon{}, nil, fmt.Errorf("error reading raw data: %w", err)
+	}
+
+	var newPokemon Pokemon
+
+	if err = json.Unmarshal(rawData, &newPokemon); err != nil {
+		return Pokemon{}, nil, fmt.Errorf("error decoding response: %w", err)
+	}
+	return newPokemon, rawData, nil
+}
