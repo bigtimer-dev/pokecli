@@ -1,2 +1,2 @@
 
-BOOT.DEV GUIDE PROJECT: Pokecli (Pokedex) 
+BOOT.DEV GUIDE PROJECT: Pokecli (PokeDEX) 
